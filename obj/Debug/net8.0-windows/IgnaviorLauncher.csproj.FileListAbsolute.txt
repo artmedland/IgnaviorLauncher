@@ -26,3 +26,4 @@ C:\Users\skrungel\source\repos\IgnaviorLauncher\obj\Debug\net8.0-windows\Ignavio
 C:\Users\skrungel\source\repos\IgnaviorLauncher\obj\Debug\net8.0-windows\IgnaviorLauncher.genruntimeconfig.cache
 C:\Users\skrungel\source\repos\IgnaviorLauncher\obj\Debug\net8.0-windows\ref\IgnaviorLauncher.dll
 C:\Users\skrungel\source\repos\IgnaviorLauncher\obj\Debug\net8.0-windows\IgnaviorLauncher_Content.g.cs
+C:\Users\skrungel\source\repos\IgnaviorLauncher\obj\Debug\net8.0-windows\IgnaviorLauncher.sourcelink.json

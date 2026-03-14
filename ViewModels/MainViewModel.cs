@@ -42,11 +42,11 @@ public partial class MainViewModel : ObservableObject
         {
             Version = "1.2.3",
             ReleaseDate = new DateTime(2026, 3, 14),
-            MarkdownContent = @"## New Features
+            MarkdownContent = @"## **New Features**
 - Added support for new control system
 - Improved rendering performance
 
-### Bugs
+### **Bugs**
 - Fixed bugs"
         });
         game1.PatchNotes.Add(new PatchNoteViewModel
@@ -54,6 +54,21 @@ public partial class MainViewModel : ObservableObject
             Version = "1.2.2",
             ReleaseDate = new DateTime(2026, 3, 13),
             MarkdownContent = @"- Nothing interesting"
+        });
+        game1.PatchNotes.Add(new PatchNoteViewModel()
+        {
+            Version = "1.2",
+            ReleaseDate = new DateTime(2026, 1, 23),
+            MarkdownContent = @"## Bugs
+- Added new bugs
+- Fixed none
+
+### New Features
+- Major new content
+- Patched game-breaking glitch
+- New backend for input management
+- New version control system
+- Removed all old saves"
         });
 
         var game2 = new GameViewModel
@@ -84,9 +99,16 @@ public partial class MainViewModel : ObservableObject
         if (game == null)
             return;
 
-        // currently LastClicked, not LastPlayed!
-        game.LastPlayed = DateTime.Now;
+        SelectedGame = Games.FirstOrDefault(g => g == game);
+    }
 
+    [RelayCommand]
+    private void PlayGame(GameViewModel game)
+    {
+        if (game == null)
+            return;
+
+        game.LastPlayed = DateTime.Now;
         var reordered = Games.OrderByDescending(g => g.LastPlayed).ToList();
         Games.Clear();
         foreach (var g in reordered)

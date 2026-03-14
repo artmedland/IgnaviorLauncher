@@ -6,7 +6,7 @@
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="500">
     <Border Margin="0,0,0,10"
-            Background="#222222" Opacity="0.3"
+            Background="#4C222222"
             CornerRadius="3"
             Padding="10">
         <StackPanel>
@@ -19,7 +19,8 @@
                                       Background="Transparent"
                                       BorderThickness="0"
                                       Foreground="White"
-                                      FontFamily="Inter" FontSize="13"/>
+                                      FontFamily="Inter" FontSize="13"
+                                      FontWeight="Light"/>
         </StackPanel>
     </Border>
 </UserControl>
