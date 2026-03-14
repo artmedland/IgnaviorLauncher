@@ -60,7 +60,7 @@ namespace IgnaviorLauncher.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/IgnaviorLauncher;component/views/patchnoteview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/IgnaviorLauncher;V1.0.0.0;component/views/patchnoteview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\PatchNoteView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

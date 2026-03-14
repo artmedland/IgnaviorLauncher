@@ -184,7 +184,7 @@
                             Foreground="White"
                             VerticalAlignment="Bottom"
                             Margin="0,0,0,20"
-                            Command="{Binding DataContext.PlayGameCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                            Command="{Binding DataContext.PrimaryActionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                             CommandParameter="{Binding SelectedGame}"
                             />
                 </Grid>
