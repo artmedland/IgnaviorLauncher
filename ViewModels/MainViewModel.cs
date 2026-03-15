@@ -11,6 +11,8 @@ using SharpCompress.Archives;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
+using Debug = System.Diagnostics.Debug;
+
 namespace IgnaviorLauncher.ViewModels;
 
 public partial class MainViewModel : ObservableObject
@@ -55,7 +57,7 @@ public partial class MainViewModel : ObservableObject
         string path = GetGameLibraryPath();
         gameService = new(path);
 
-        Games = new ObservableCollection<GameViewModel>();
+        Games = [];
         _ = Async();
     }
 
@@ -148,7 +150,7 @@ public partial class MainViewModel : ObservableObject
                     MarkdownContent = markdown,
                     ReleaseDate = DateTime.MinValue
                 });
-            } 
+            }
             catch
             {
                 game.PatchNotes.Add(new PatchNoteViewModel
@@ -181,6 +183,42 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    private FileStream TryOpenFile(string path, FileMode mode, FileAccess access, FileShare share, int maxRetries = 3)
+    {
+        for (int i = 0; i < maxRetries; i++)
+        {
+            try
+            {
+                return new FileStream(path, mode, access, share, 4096, FileOptions.SequentialScan);
+            }
+            catch (IOException)
+            when (i < maxRetries - 1)
+            {
+                Thread.Sleep(300 * (i + 1));
+            }
+        }
+        throw new IOException($"Failed to open {path}");
+    }
+
+    private void TryDeleteFile(string path, int maxRetries = 3)
+    {
+        for (int i = 0; i < maxRetries; i++)
+        {
+            try
+            {
+                File.Delete(path);
+                return;
+            }
+            catch (IOException)
+            when (i < maxRetries - 1)
+            {
+                System.Diagnostics.Debug.WriteLine($"Attempt {i+1} failed");
+                Thread.Sleep((i + 1) * 400);
+            }
+        }
+        throw new Exception($"Failed to delete {path}");
+    }
+
     private async void InstallGame(GameViewModel game)
     {
         var gameEntry = manifestMap.FirstOrDefault(pair => pair.Value.Name == game.Name);
@@ -196,28 +234,51 @@ public partial class MainViewModel : ObservableObject
 
         DownloadService downloader = new();
         string temp = GetDownloadsPath();
-        string rarPath = await downloader.DownloadFileAsync(manifest.Base.Url, temp);
+        string rarPath = null;
 
-        using var archive = SharpCompress.Archives.Rar.RarArchive.OpenArchive(rarPath);
-        foreach (var entry in archive.Entries.Where(e => !e.IsDirectory))
+        try
         {
-            entry.WriteToDirectory(gamedir, new SharpCompress.Common.ExtractionOptions()
+            rarPath = await downloader.DownloadFileAsync(manifest.Base.Url, temp);
+            Debug.WriteLine($"Downloaded archive to {rarPath}");
+
+            if (!File.Exists(rarPath))
+                throw new Exception("Downloaded file missing!");
+            game.TextState = "Extracting";
+
+            using (var stream = TryOpenFile(rarPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var archive = SharpCompress.Archives.Rar.RarArchive.OpenArchive(stream))
             {
-                ExtractFullPath = true,
-                Overwrite = true
+                foreach (var entry in archive.Entries.Where(e => !e.IsDirectory))
+                {
+                    entry.WriteToDirectory(gamedir, new SharpCompress.Common.ExtractionOptions()
+                    {
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
+                }
+            }
+
+            //GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
+
+            Debug.WriteLine("Extraction complete.");
+            TryDeleteFile(rarPath);
+            gameService.SaveGameInfo(new LocalGameInfo()
+            {
+                Id = id,
+                InstalledVersion = manifest.Base.Version,
+                LastPlayed = DateTime.Now
             });
+            game.InstalledVersion = manifest.Base.Version;
+            game.TextState = manifest.Base.Version == manifest.LatestVersion ? "Play" : "Update";
         }
-
-        File.Delete(rarPath);
-        gameService.SaveGameInfo(new LocalGameInfo()
+        catch (Exception ex)
         {
-            Id = id,
-            InstalledVersion = manifest.Base.Version,
-            LastPlayed = DateTime.Now
-        });
-
-        game.InstalledVersion = manifest.Base.Version;
-        game.TextState = manifest.Base.Version == manifest.LatestVersion ? "Play" : "Update";
+            Debug.WriteLine(ex);
+            if (rarPath != null && File.Exists(rarPath))
+            {
+                TryDeleteFile(rarPath);
+            }
+        }
     }
 
     private async void UpdateGame(GameViewModel game)
@@ -238,9 +299,8 @@ public partial class MainViewModel : ObservableObject
         // assumes patches in order!
         while (version != manifest.LatestVersion)
         {
-            var next = manifest.Patches.FirstOrDefault(p => p.OldVersion == version);
-            if (next == null)
-                throw new Exception($"No patch found from {version} to next version!");
+            var next = manifest.Patches.FirstOrDefault(p => p.OldVersion == version) 
+                ?? throw new Exception($"No patch found from {version} to next version!");
             patches.Add(next);
             version = next.NewVersion;
         }
@@ -252,7 +312,7 @@ public partial class MainViewModel : ObservableObject
         {
             string rar = await downloader.DownloadFileAsync(patch.Url, temp);
             ApplyPatchPackage(rar, gamedir);
-            File.Delete(rar);
+            TryDeleteFile(rar);
         }
 
         var info = gameService.GetGameInfo(id);
@@ -288,7 +348,8 @@ public partial class MainViewModel : ObservableObject
         string temp = Path.Combine(Path.GetTempPath(), "IGNAVPatcherTool", Guid.NewGuid().ToString());
         Directory.CreateDirectory(temp);
 
-        using var archive = SharpCompress.Archives.Rar.RarArchive.OpenArchive(rar);
+        using var fileStream = TryOpenFile(rar, FileMode.Open, FileAccess.Read, FileShare.Read);
+        using var archive = SharpCompress.Archives.Rar.RarArchive.OpenArchive(fileStream);
         foreach (var entry in archive.Entries.Where(e => !e.IsDirectory))
         {
             entry.WriteToDirectory(temp, new SharpCompress.Common.ExtractionOptions()
@@ -349,7 +410,7 @@ public partial class MainViewModel : ObservableObject
                 throw new Exception($"Patch {patchEntry.file} (xdelta3) failed: {error}");
             }
             File.Delete(target);
-            File.Move(temp, target);
+            File.Move(output, target);
         }
         Directory.Delete(temp, true);
     }

@@ -17,6 +17,7 @@ public class DownloadService
     public async Task<string> DownloadFileAsync(string url, string dest)
     {
         Directory.CreateDirectory(dest);
+
         string baseFileName = Path.GetFileName(new Uri(url).LocalPath);
         string extension = Path.GetExtension(baseFileName);
         if (string.IsNullOrEmpty(extension))
@@ -27,33 +28,28 @@ public class DownloadService
         string fileName = Guid.NewGuid().ToString() + extension;
         string destPath = Path.Combine(dest, fileName);
 
-        const int maxRetries = 3;
-        int attempt = 0;
-        while (attempt < maxRetries)
+        try
         {
-            try
-            {
-                using var response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                using FileStream fileStream = new(dest, FileMode.Create, FileAccess.Write, FileShare.None,
-                    bufferSize: 8192, useAsync: true);
-                await response.Content.CopyToAsync(fileStream);
-                return destPath;
-            }
-            catch (UnauthorizedAccessException)
-            when (attempt < maxRetries - 1)
-            {
-                await Task.Delay(1000 * (attempt + 1));
-                attempt++;
-            }
-            catch (IOException)
-            when (attempt < maxRetries - 1)
-            {
-                await Task.Delay(1000 * (attempt + 1));
-                attempt++;
-            }
+            using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+
+            using FileStream fileStream = new(
+                destPath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.Read,
+                bufferSize: 8192,
+                FileOptions.Asynchronous
+                );
+
+            await response.Content.CopyToAsync(fileStream);
+            return destPath;
+        }
+        catch (Exception ex)
+        {
+            // foo
         }
 
-        throw new Exception($"Download failed (source {url}) after {maxRetries} attempts");
+        throw new Exception("Download failure");
     }
 }
