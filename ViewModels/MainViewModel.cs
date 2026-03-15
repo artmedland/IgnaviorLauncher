@@ -39,6 +39,15 @@ public partial class MainViewModel : ObservableObject
         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".Ignavior");
     }
 
+    private string GetDownloadsPath()
+    {
+        string path = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+            "IgnaviorLauncher", "Downloads");
+        Directory.CreateDirectory(path);
+        return path;
+    }
+
     public MainViewModel()
     {
         manifest = new();
@@ -186,7 +195,7 @@ public partial class MainViewModel : ObservableObject
         Directory.CreateDirectory(gamedir);
 
         DownloadService downloader = new();
-        string temp = Path.Combine(Path.GetTempPath(), "IGNAV_LauncherDL");
+        string temp = GetDownloadsPath();
         string rarPath = await downloader.DownloadFileAsync(manifest.Base.Url, temp);
 
         using var archive = SharpCompress.Archives.Rar.RarArchive.OpenArchive(rarPath);
@@ -237,7 +246,7 @@ public partial class MainViewModel : ObservableObject
         }
 
         var downloader = new DownloadService();
-        string temp = Path.Combine(Path.GetTempPath(), "IGNAV_LauncherDL");
+        string temp = GetDownloadsPath();
 
         foreach (var patch in patches)
         {

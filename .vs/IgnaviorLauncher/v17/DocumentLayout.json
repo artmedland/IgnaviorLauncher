@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\services\\localgameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:services\\localgameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\ignaviorlauncher.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:ignaviorlauncher.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\services\\manifestmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -13,14 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\services\\manifestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:services\\manifestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\services\\localgameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:services\\localgameservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:services\\downloadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -33,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\views\\patchnoteview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:views\\patchnoteview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\ignaviorlauncher.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|solutionrelative:ignaviorlauncher.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2974A6D7-9383-4245-82EC-F1B21D4F902F}|IgnaviorLauncher.csproj|c:\\users\\skrungel\\source\\repos\\ignaviorlauncher\\views\\patchnoteview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -58,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,20 +66,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "DownloadService.cs",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Services\\DownloadService.cs",
               "RelativeDocumentMoniker": "Services\\DownloadService.cs",
               "ToolTip": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Services\\DownloadService.cs",
               "RelativeToolTip": "Services\\DownloadService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACUAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-14T19:15:57.247Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "LocalGameService.cs",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Services\\LocalGameService.cs",
               "RelativeDocumentMoniker": "Services\\LocalGameService.cs",
@@ -92,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "ManifestService.cs",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Services\\ManifestService.cs",
               "RelativeDocumentMoniker": "Services\\ManifestService.cs",
@@ -105,7 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "ManifestModels.cs",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Services\\ManifestModels.cs",
               "RelativeDocumentMoniker": "Services\\ManifestModels.cs",
@@ -156,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "PatchNoteView.xaml",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Views\\PatchNoteView.xaml",
               "RelativeDocumentMoniker": "Views\\PatchNoteView.xaml",
@@ -168,20 +168,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainViewModel.cs",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\ViewModels\\MainViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\MainViewModel.cs",
               "ToolTip": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\ViewModels\\MainViewModel.cs",
               "RelativeToolTip": "ViewModels\\MainViewModel.cs",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAAAGMAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAOkAAAAAAAAAAIA5wPwAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-13T22:02:34.841Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "IgnaviorLauncher.csproj",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\IgnaviorLauncher.csproj",
               "RelativeDocumentMoniker": "IgnaviorLauncher.csproj",
@@ -194,7 +194,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Views\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Views\\MainWindow.xaml",
@@ -206,7 +206,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\skrungel\\source\\repos\\IgnaviorLauncher\\Views\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "Views\\MainWindow.xaml.cs",
