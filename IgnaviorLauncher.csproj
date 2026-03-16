@@ -13,10 +13,15 @@
   <ItemGroup>
     <None Remove="Assets\Fonts\Inter-SemiBold.ttf" />
     <None Remove="Assets\Fonts\Inter-VariableFont_opsz,wght.ttf" />
+    <None Remove="Resources\xdelta3.exe" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\xdelta3.exe" />
   </ItemGroup>
 
   <ItemGroup>

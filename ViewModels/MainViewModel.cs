@@ -403,7 +403,8 @@ public partial class MainViewModel : ObservableObject
             File.Copy(source, dest, overwrite: true);
         }
 
-        string xdelta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "xdelta3.exe");
+        // string xdelta = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "xdelta3.exe");
+        string xdelta = AppDomain.CurrentDomain.GetData("PatcherPath") as string;
         foreach (var patchEntry in patch.patches)
         {
             string target = Path.Combine(dir, patchEntry.file);
