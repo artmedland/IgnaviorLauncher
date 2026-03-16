@@ -5,11 +5,12 @@ namespace IgnaviorLauncher.Services;
 
 public static class ResourceService
 {
-    private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-    
-    private static readonly string BaseDirectory = Path.Combine(AppData, "IgnaviorLauncher", "bin");
-    
+    private static readonly string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+    private static readonly string BaseDirectory = Path.Combine(local, "IgnaviorLauncher", "bin");
     private const string REL_PATH = "IgnaviorLauncher.Resources.xdelta3.exe";
+
+    // TODO: Move to separate service
+    public static readonly string LocalAppDirectory = Path.Combine(local, "IgnaviorLauncher");
 
     /// <summary>
     /// Finds the xdelta3 patcher executable from embedded resources.

@@ -16,17 +16,18 @@ public class LocalGameInfo
 
 public class LocalGameService
 {
-    private readonly string path;
+    private readonly JsonSerializerOptions jsonOptions = new() { WriteIndented = true };
+    public string LibraryPath { get; }
 
     public LocalGameService(string path)
     {
-        this.path = path;
+        LibraryPath = path;
         Directory.CreateDirectory(path);
     }
 
     public LocalGameInfo GetGameInfo(string id)
     {
-        string dir = Path.Combine(path, id);
+        string dir = Path.Combine(LibraryPath, id);
         string info = Path.Combine(dir, "gameinfo.json");
 
         if (!File.Exists(info))
@@ -38,11 +39,11 @@ public class LocalGameService
 
     public void SaveGameInfo(LocalGameInfo info)
     {
-        string folder = Path.Combine(path, info.Id);
+        string folder = Path.Combine(LibraryPath, info.Id);
         Directory.CreateDirectory(folder);
         
         string file = Path.Combine(folder, "gameinfo.json");
-        var json = JsonSerializer.Serialize(info, new JsonSerializerOptions { WriteIndented = true });
+        var json = JsonSerializer.Serialize(info, jsonOptions);
         File.WriteAllText(file, json);
     }
 
@@ -58,7 +59,7 @@ public class LocalGameService
 
     public IEnumerable<string> GetInstalledGameIds()
     {
-        foreach (var dir in Directory.GetDirectories(path))
+        foreach (var dir in Directory.GetDirectories(LibraryPath))
         {
             string id = Path.GetFileName(dir);
 

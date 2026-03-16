@@ -12,6 +12,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 
 using Debug = System.Diagnostics.Debug;
+using System.Windows;
 
 namespace IgnaviorLauncher.ViewModels;
 
@@ -36,6 +37,8 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    private readonly SettingsService settingsService;
+
     private string GetGameLibraryPath()
     {
         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".Ignavior");
@@ -53,10 +56,30 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel()
     {
         manifest = new();
-        // WARN: Hard-coded to %UserPath%/.Ignavior/
-        string path = GetGameLibraryPath();
-        gameService = new(path);
+        settingsService = new();
 
+        var settings = settingsService.Load();
+        if (string.IsNullOrEmpty(settings.LibraryPath))
+        {
+            var dialog = new Microsoft.Win32.OpenFolderDialog
+            {
+                Title = "Select game install folder",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
+            };
+            if ((bool)dialog.ShowDialog())
+            {
+                settings.LibraryPath = dialog.FolderName;
+                settingsService.Save(settings);
+            }
+            else
+            {
+                settings.LibraryPath = GetGameLibraryPath();
+                MessageBox.Show($"Operation canceled, defaulting to path {GetGameLibraryPath()}");
+                settingsService.Save(settings);
+            }
+        }
+
+        gameService = new(settings.LibraryPath);
         Games = [];
         _ = Async();
     }
@@ -228,7 +251,9 @@ public partial class MainViewModel : ObservableObject
         string id = gameEntry.Key;
         var manifest = gameEntry.Value;
 
-        string library = GetGameLibraryPath();
+        // old fallback
+        // string library = GetGameLibraryPath();
+        string library = gameService.LibraryPath;
         string gamedir = Path.Combine(library, id);
         Directory.CreateDirectory(gamedir);
 
@@ -293,7 +318,9 @@ public partial class MainViewModel : ObservableObject
         string id = gameEntry.Key;
         var manifest = gameEntry.Value;
 
-        string library = GetGameLibraryPath();
+        // old fallback
+        // string library = GetGameLibraryPath();
+        string library = gameService.LibraryPath;
         string gamedir = Path.Combine(library, id);
 
         var info = gameService.GetGameInfo(id) ?? throw new Exception("Game info not found!");
@@ -336,7 +363,7 @@ public partial class MainViewModel : ObservableObject
         {
             string id = entry.Key;
             var info = gameService.GetGameInfo(id);
-            string gamedir = Path.Combine(GetGameLibraryPath(), id);
+            string gamedir = Path.Combine(gameService.LibraryPath, id);
             string filedir = info?.GameRoot == "." ? gamedir : Path.Combine(gamedir, info?.GameRoot ?? "");
             string exe = Directory.GetFiles(filedir, "*.exe").FirstOrDefault();
 
