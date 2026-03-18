@@ -6,6 +6,7 @@ namespace IgnaviorLauncher.Services;
 public class Settings
 {
     public string LibraryPath { get; set; }
+    public byte[] Secret { get; set; }
 }
 
 public class SettingsService
