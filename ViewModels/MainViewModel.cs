@@ -86,7 +86,7 @@ public partial class MainViewModel : ObservableObject
         if (settings.Secret == null || settings.Secret.Length == 0)
         {
             string secret = Interaction.InputBox(
-                "Markus Korpela jobbade på Projekt [********] (stora bokstäver): ",
+                "TC catchphrase (club) (lowercase, spaces) + bday DDMMYY: ",
                 "First-Time Setup", "", -1, -1);
             
             if (!string.IsNullOrEmpty(secret))
@@ -309,6 +309,58 @@ public partial class MainViewModel : ObservableObject
         throw new Exception($"Failed to delete {path}");
     }
 
+    private async Task<List<string>> DownloadArchivePartsAsync(
+        DownloadService downloader,
+        string tempDir,
+        BaseInfo baseInfo)
+    {
+        var paths = new List<string>();
+        if (baseInfo.Parts != null && baseInfo.Parts.Any())
+        {
+            foreach (var part in baseInfo.Parts)
+            {
+                string path = await downloader.DownloadFileAsync(part.Url, tempDir);
+                paths.Add(path);
+            }
+        }
+        else if (!string.IsNullOrEmpty(baseInfo.Url))
+        {
+            string path = await downloader.DownloadFileAsync(baseInfo.Url, tempDir);
+            paths.Add(path);
+        }
+        else
+        {
+            throw new Exception("No archive URL or parts specified.");
+        }
+        return paths;
+    }
+
+    private async Task<List<string>> DownloadArchivePartsAsync(
+        DownloadService downloader,
+        string tempDir,
+        PatchInfo patchInfo)
+    {
+        var paths = new List<string>();
+        if (patchInfo.Parts != null && patchInfo.Parts.Count != 0)
+        {
+            foreach (var part in patchInfo.Parts)
+            {
+                string path = await downloader.DownloadFileAsync(part.Url, tempDir);
+                paths.Add(path);
+            }
+        }
+        else if (!string.IsNullOrEmpty(patchInfo.Url))
+        {
+            string path = await downloader.DownloadFileAsync(patchInfo.Url, tempDir);
+            paths.Add(path);
+        }
+        else
+        {
+            throw new Exception("No patch URL or parts specified.");
+        }
+        return paths;
+    }
+
     private async void InstallGame(GameViewModel game)
     {
         var gameEntry = manifestMap.FirstOrDefault(pair => pair.Value.Name == game.Name);
@@ -329,7 +381,8 @@ public partial class MainViewModel : ObservableObject
 
         try
         {
-            rarPath = await downloader.DownloadFileAsync(manifest.Base.Url, temp);
+            List<string> downloaded = await DownloadArchivePartsAsync(downloader, temp, manifest.Base);
+            rarPath = downloaded.First();
             Debug.WriteLine($"Downloaded archive to {rarPath}");
 
             if (!File.Exists(rarPath))
@@ -358,7 +411,10 @@ public partial class MainViewModel : ObservableObject
             NormalizeExtraction(extractTemp, innerDir);
 
             Directory.Delete(extractTemp, true);
-            TryDeleteFile(rarPath);
+            foreach (var part in downloaded)
+            {
+                TryDeleteFile(part);
+            }
 
             string displayVer = GetDisplayVersion(id, manifest.Base.Version);
             gameService.SaveGameInfo(new LocalGameInfo
@@ -471,9 +527,14 @@ public partial class MainViewModel : ObservableObject
 
         foreach (var patch in patches)
         {
-            string rar = await downloader.DownloadFileAsync(patch.Url, tempDirectory);
-            ApplyPatchPackage(rar, dir);
-            TryDeleteFile(rar);
+            List<string> downloads = await DownloadArchivePartsAsync(
+                downloader, tempDirectory, patch
+                );
+            ApplyPatchPackage(downloads.First(), dir);
+            foreach (var part in downloads)
+            {
+                TryDeleteFile(part);
+            }
         }
 
         info.InstalledVersion = manifest.LatestVersion;

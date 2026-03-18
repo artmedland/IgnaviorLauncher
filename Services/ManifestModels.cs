@@ -36,6 +36,16 @@ public class BaseInfo
 
     [JsonPropertyName("url")]
     public string Url { get; set; }
+
+    [JsonPropertyName("parts")]
+    public List<PartInfo> Parts { get; set; }
+}
+
+public class PartInfo
+{
+    [JsonPropertyName("url")]
+    public string Url { get; set; }
+    // add hash and size later
 }
 
 public class PatchInfo
@@ -48,4 +58,7 @@ public class PatchInfo
 
     [JsonPropertyName("url")]
     public string Url { get; set; }
+
+    [JsonPropertyName("parts")]
+    public List<PartInfo> Parts { get; set; }
 }
