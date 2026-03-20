@@ -22,6 +22,13 @@ The system also finds hosted changelogs. When the user selects a game to launch,
 
 The program is built as a WPF graphical user interface built on .NET 8.0 with a C# backend. The system is designed for internal use, but can easily be adapted for the distribution of any self-hosted files.
 
+## Features
+- Secret management: Optional password protection for internal-sensitivity files, with robust secret preservation, encryption and retrieval
+- Bundled executables: All helper standalone executables have been bundled with the main program, and are extracted to a /bin/ folder on first install
+- Changelog: Hosted markdown files are displayed on a panel in the launcher
+- Game icons: Hosted icons are retrieved and displayed on the top game bar
+- Progress bar: Downloads and extraction update a progress bar to provide real-time user feedback
+
 ## What does the Ignavior Launcher NOT do?
 
 This is not a particularly sophisticated system. Essentially, all it does is retrieve archive files from an external host, managing their extraction and application. The program may support game-specific data, such as settings or achievements. The system is not intended for identification or authentication of users, advanced package management or digital rights management.
@@ -29,49 +36,51 @@ This is not a particularly sophisticated system. Essentially, all it does is ret
 ## Future plans
 
 - Manifest extensions: sizes, hashes and mirror hosts
-- Secrets: Password protection for internal-sensitivity files, with robust secret preservation and retrieval
-- Patcher: Implement the Python-based patcher that was used for testing
-- xDelta: bundle the xdelta diff tool with the program
 - Self-Updater: The launcher itself is added as an entry in the manifest, containing (sequential or absolute) patches and self-applying updates automatically while running
 - Changelog: Display hosted markdown files in the correct WPF panel
-- UI updates: ship font styling, and allow for more robust customization, fix bugs, procedural icons etc.
+- UI updates: ship font styling, and allow for more robust customization, fix bugs, icon fallbacks etc
 - Offline: manifest caching, and if connection fails, enable Play button with currently installed version, even without updates
-- Downloads: Progress bars, pausing and resuming, etc.
+- 
 
 # Installation
 
-Currently, in the proof-of-concept version, there are no official releases. Clone the project and build it, if you want.
+The project is currently in its beta phase. Be aware that the program may contain many bugs and issues. Only the Windows 10 and 11 operating systems are officially supported.
+
+To download, navigate to the [Releases](https://github.com/puuhapake/IgnaviorLauncher/releases) section of this repository and download the zip file, extract it and run the executable. A more straightforward installation experience has been planned.
 
 # For developers
 
 ## Adding a new game
 1. Build the base version of the game
 2. Add the files to a `.rar` archive
-3. Upload the archive to the host and any relevant mirrors
-4. Copy the direct download URL of the file(s)
-5. Add an entry to `manifest.json`:
+   - optionally, password-protect the archive with the universal password
+4. Upload the archive to the host and any relevant mirrors
+5. Copy the direct download URL of the file(s)
+6. Add an entry to `manifest.json`:
    - Choose a unique identifier string
    - Set `name` to the display name of the game
    - Set `latest` to an integer representing the current latest version (e.g. `1`)
    - Set the values for `base`, including `version` and the `url`.
-6. Create a changelog markdown file for the version, and place it in `changelogs/{game_id}/{version_integer}.md` of the file host
-7. Upload the updated manifest and changelog(s). Now, the launcher will show the new game.
+7. Create a changelog markdown file for the version, and place it in `changelogs/{game_id}/{version_integer}.md` of the file host
+8. Add an icon for the game, and place it in `/icons/` of the file host
+9. Upload the updated manifest and changelog(s). Now, the launcher will show the new game.
 
 ## Adding an update to an existing game
 1. Build the new version of the game
-2. Generate patches using the provided patcher, or an external xdelta3 build
+2. Generate patches using [the provided patcher](https://github.com/puuhapake/IgnaviorLauncher_patcher), or an external xdelta3 build
 3. Archive the patch folder into a `.rar` archive
-4. Upload the patch to the host
-5. Update `manifest.json`:
+   - optionally, password-protect the archive with the universal password
+5. Upload the patch to the host
+6. Update `manifest.json`:
    - Add a new entry to the `patches` array with definitions for `from` (the old version), `to` (the updated version) and `url`
    - Increment the `latest` field to the new version
-6. Add a changelog markdown for the new version, and place it in `changelogs/{game_id}/{latest_version}.md`
-7. Upload the updated manifest and changelog(s). Now, the launcher will retrieve the update(s) and apply them sequentially.
+7. Add a changelog markdown for the new version, and place it in `changelogs/{game_id}/{latest_version}.md`
+9. Upload the updated manifest and changelog(s). Now, the launcher will retrieve the update(s) and apply them sequentially.
 
 # License
 
 License terms have not yet been finalized. 
-All rights reserved.
+All rights reserved, except for external programs and libraries, such as `xdelta3`, `7-Zip`, `Inno` or `SharpCompress`.
 
 ## Liability
 
